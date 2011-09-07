@@ -1,0 +1,20 @@
+Hey, what's up.  Football + stats = awesome fantasy football analytics.
+
+Here's an example of how you'd invoke this bad boy, and some example output:
+
+$ python analyze.py 604965
+FREE WEEZY: -17.20
+TEAM GRAY GHOSTS: -10.00
+DUMBLEDORE'S ARMY: -9.80
+INCHES WIDE: -8.80
+DARK SECRET: -1.60
+XOTICA'S FIRESTORM: 0.80
+TEAM GESUALDI: 3.80
+TEAM TRYINGTHISYEAR: 8.00
+MAKE CHECKS PAYABLE TO EVAN: 9.20
+TEAM SCHULER: 13.20
+1. JOBIN'S HOLY TRIUMVIRATE: 16.40
+MICHAEL VICK'S DOGGY GROOMING: 22.40
+
+
+Just pass your leagueId into the script and it'll do the rest.  It takes a long time because it actually makes http requests for up-to-date suggested auction values for each position.  ESPN doesn't really have an api for this, so I'm scraping it with BeautifulSoup.  Anyway, enjoy.
