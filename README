@@ -2,7 +2,7 @@ Hey, what's up.  Football + stats = awesome fantasy football analytics.
 
 Here's an example of how you'd invoke this bad boy, and some example output:
 
-$ python analyze.py 604965
+$ python analyzer.py 604965
 FREE WEEZY: -17.20
 TEAM GRAY GHOSTS: -10.00
 DUMBLEDORE'S ARMY: -9.80
