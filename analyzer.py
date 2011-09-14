@@ -4,6 +4,7 @@ from operator import itemgetter
 import urllib2, sys
 
 league     = sys.argv[1]
+# league  = '609519'
 values_url = 'http://sports.espn.go.com/fantasy/football/ffl/story?page=NFLDK2K11ranks'
 recap_url  = 'http://games.espn.go.com/ffl/tools/draftrecap?leagueId=' + league
 
@@ -16,18 +17,23 @@ def curl(url):
 # Selects the appropriate cell, rips out the position and
 # standardizes the return string (stripped and lowercased)
 # row: BeautifulSoup element
-def grabPlayerName(row):
+def grabPlayerName(row, predraft=True):
     cell = row.td.nextSibling
     name = cell.a.string.strip()
 
     # TODO: bug here -- D/ST is repeated twice, so all D's are $0
-    team = cell.contents[-1].string.strip()
+    if (predraft):
+        team = cell.contents[-1].string.strip()
+    else:
+        team = cell.contents[1].string.strip()
 
     # this is nasty, but the ESPN site dumps in this garbage in their markup,
     # so let's get rid of it, since this is our lookup key
     if '&nbsp;' in team:
         team = team[0 : team.find('&nbsp;')]
-    return "{0} {1}".format(name, team).lower()
+    if team == 'WSH':
+        team = 'WAS'
+    return "{0} {1}".format(name, team).lower().strip()
 
 # Selects the appropriate cell, then strips the $ sign and returns an int
 # row: BeautifulSoup element, a tr
@@ -71,7 +77,7 @@ for team in teams_dom:
     name = team.tr.td.a.string.strip()
     team_data = []
     for row in team.findAll('tr', {'class' : 'tableBody'}):
-        player = grabPlayerName(row)
+        player = grabPlayerName(row, False)
         cash   = grabCashValue(row, recap=True)
         # scale the valuation, because the site numbers are for a 10-team league
         valuation = pre_draft_valuations.get(player, 0) * (total_teams / 10.0)
